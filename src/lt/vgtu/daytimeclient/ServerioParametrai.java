@@ -1,4 +1,4 @@
-package com.daytimeclient;
+package lt.vgtu.daytimeclient;
 
 //Serverio parametrai
 public interface ServerioParametrai {

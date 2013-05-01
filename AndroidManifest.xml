@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.daytimeclient"
+    package="lt.vgtu.daytimeclient"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -16,7 +16,7 @@
         android:label="DayTimeClient"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.daytimeclient.MainActivity"
+            android:name="lt.vgtu.daytimeclient.DayTimeClientActivity"
             android:label="DayTimeClient" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,5 +25,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

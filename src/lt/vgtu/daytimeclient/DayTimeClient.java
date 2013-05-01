@@ -1,4 +1,4 @@
-package com.daytimeclient;
+package lt.vgtu.daytimeclient;
 
 import java.io.*;
 import java.net.*;
