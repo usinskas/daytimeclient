@@ -1,6 +1,7 @@
 
 package lt.vgtu.daytimeclient;
 
+import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,7 +43,11 @@ public class DayTimeClientActivity extends Activity {
 
                     @Override
                     protected String doInBackground(Void... params) {
-                        return DayTimeClient.GetTimeTCP(ServerioParametrai.Adresas, ServerioParametrai.Prievadas);
+                        try {
+                            return DayTimeClient.GetTimeTCP(ServerioParametrai.Adresas, ServerioParametrai.Prievadas);
+                        } catch (NetworkErrorException e) {
+                            return getResources().getString(R.string.activity_day_time_client_connection_error);
+                        }
                     }
 
                     @Override
