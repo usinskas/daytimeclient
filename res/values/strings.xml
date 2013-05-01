@@ -4,5 +4,6 @@
     <string name="app_name">DayTimeClient</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="activity_time_connection_error">Ryšio klaida</string>
 
 </resources>

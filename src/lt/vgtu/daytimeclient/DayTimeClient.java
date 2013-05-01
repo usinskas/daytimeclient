@@ -1,3 +1,4 @@
+
 package lt.vgtu.daytimeclient;
 
 import java.io.BufferedReader;
@@ -5,48 +6,48 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import android.accounts.NetworkErrorException;
 import android.util.Log;
 
 public class DayTimeClient {
 
-	public static String GetTimeTCP(String ServerioAdresas,
-			int ServerioPrievadas) {
-		
-		//Nustatomi kintamieji
-		InetAddress serverAddr;
-		Socket socket;
-		InputStreamReader stream;
-		BufferedReader serverInput;
-		String time;
+    public static String GetTimeTCP(String ServerioAdresas, int ServerioPrievadas) throws NetworkErrorException {
 
-		try {
-			// Nustatoma jungtis
-			serverAddr = InetAddress.getByName(ServerioAdresas);
-			socket = new Socket(serverAddr, ServerioPrievadas);
-			stream = new InputStreamReader(socket.getInputStream());
-			serverInput = new BufferedReader(stream);
+        // Nustatomi kintamieji
+        InetAddress serverAddr;
+        Socket socket;
+        InputStreamReader stream;
+        BufferedReader serverInput;
+        String time;
 
-			// Gaunamas laikas
-			time = "";
-			while (time.length() == 0) {
-				time = serverInput.readLine();
-			}
+        try {
+            // Nustatoma jungtis
+            serverAddr = InetAddress.getByName(ServerioAdresas);
+            socket = new Socket(serverAddr, ServerioPrievadas);
+            stream = new InputStreamReader(socket.getInputStream());
+            serverInput = new BufferedReader(stream);
 
-			// Nutraukiama jungtis
-			socket.close();
+            // Gaunamas laikas
+            time = "";
+            while (time.length() == 0) {
+                time = serverInput.readLine();
+            }
 
-			// Paliekami tik reikalingi duomenys
-			time = time.substring(6, 20);
+            // Nutraukiama jungtis
+            socket.close();
 
-			// Gràþinamas laikas kaip funkcijos vertë
-			return (time);
+            // Paliekami tik reikalingi duomenys
+            time = time.substring(6, 20);
 
-		} // Klaidos atveju
-		catch (Exception e) {
+            // Grazinamas laikas kaip funkcijos verte
+            return (time);
+
+        } // Klaidos atveju
+        catch (Exception e) {
             Log.d(DayTimeClient.class.getCanonicalName(), "Rysio klaida: " + e.getMessage());
             e.printStackTrace();
-		}
-        return "Rysio klaida";
-	}
+            throw new NetworkErrorException("Connection error.", e);
+        }
+    }
 
 }

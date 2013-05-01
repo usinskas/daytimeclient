@@ -1,6 +1,7 @@
 
 package lt.vgtu.daytimeclient;
 
+import android.accounts.NetworkErrorException;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,43 +14,46 @@ import android.widget.TextView;
 public class DayTimeClientActivity extends Activity {
 
     // Nustatomi kintamieji
-    Button mygtukas;
-    TextView tekstas;
+    Button mGetTimeB;
+    TextView mTimeValueTV;
 
     // Lango vaizdinimas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // Rodomas langas res/layout/activity_main.xml
+        // Rodomas langas res/layout/activity_time.xml
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_time_client);
 
-        // Apibreziamas mygtukas button1
-        mygtukas = (Button)findViewById(R.id.button1);
+        // Apibreziamas mygtukas activity_time_get_time_b
+        mGetTimeB = (Button)findViewById(R.id.activity_time_get_time_b);
 
-        // Rodomas serverio prievado numeris lango tekste textView5
-        tekstas = (TextView)findViewById(R.id.textView5);
-        tekstas.setText(String.format("%d", ServerioParametrai.Prievadas));
-        // Rodomas serverio adresas lango tekste textView6
-        tekstas = (TextView)findViewById(R.id.textView6);
-        tekstas.setText(ServerioParametrai.Adresas);
+        // Rodomas serverio prievado numeris lango tekste activity_time_port_number_tv
+        ((TextView)findViewById(R.id.activity_time_port_number_tv)).setText(String.format("%d", ServerioParametrai.SERVER_PORT_NUMBER));
+        // Rodomas serverio adresas lango tekste activity_time_url_tv
+        ((TextView)findViewById(R.id.activity_time_url_tv)).setText(ServerioParametrai.SERVER_URL);
+
 
         // Paspaudus mygtuka
-        mygtukas.setOnClickListener(new OnClickListener() {
+        mGetTimeB.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // startuojamas fonine gija, kurioje atliekama tinklo komunikacija
                 new AsyncTask<Void, Void, String>() {
 
                     @Override
                     protected String doInBackground(Void... params) {
-                        return DayTimeClient.GetTimeTCP(ServerioParametrai.Adresas, ServerioParametrai.Prievadas);
+                        try {
+                            return DayTimeClient.GetTimeTCP(ServerioParametrai.SERVER_URL, ServerioParametrai.SERVER_PORT_NUMBER);
+                        } catch (NetworkErrorException e) {
+                            return getResources().getString(R.string.activity_time_connection_error);
+                        }
                     }
 
                     @Override
                     protected void onPostExecute(String timevalue) {
-                        // Rodomas laikas lango tekste textView7
-                        tekstas = (TextView)findViewById(R.id.textView7);
-                        tekstas.setText(timevalue);
+                        // Rodomas laikas lango tekste activity_time_value_tv
+                        mTimeValueTV = (TextView)findViewById(R.id.activity_time_value_tv);
+                        mTimeValueTV.setText(timevalue);
                     }
                 }.execute();
             }
@@ -59,7 +63,7 @@ public class DayTimeClientActivity extends Activity {
     // Meniu vaizdinimas
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Rodomas meniu res/menu/main.xml
+        // Rodomas meniu res/menu/activity_time.xml
         getMenuInflater().inflate(R.menu.day_time_client, menu);
         return true;
     }
