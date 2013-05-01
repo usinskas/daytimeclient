@@ -2,6 +2,7 @@
 package lt.vgtu.daytimeclient;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -33,22 +34,26 @@ public class DayTimeClientActivity extends Activity {
         tekstas = (TextView)findViewById(R.id.textView6);
         tekstas.setText(ServerioParametrai.Adresas);
 
-        // Paspaudus mygtukˆ
+        // Paspaudus mygtuka
         mygtukas.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+                // startuojamas fonine gija, kurioje atliekama tinklo komunikacija
+                new AsyncTask<Void, Void, String>() {
 
-                // Nustatomas kintamasis
-                String timevalue;
+                    @Override
+                    protected String doInBackground(Void... params) {
+                        return DayTimeClient.GetTimeTCP(ServerioParametrai.Adresas, ServerioParametrai.Prievadas);
+                    }
 
-                // Kreipiamasi ‡ funkcijˆ GetTimeTCP
-                timevalue = DayTimeClient.GetTimeTCP(ServerioParametrai.Adresas, ServerioParametrai.Prievadas);
-
-                // Rodomas laikas lango tekste textView7
-                tekstas = (TextView)findViewById(R.id.textView7);
-                tekstas.setText(timevalue);
+                    @Override
+                    protected void onPostExecute(String timevalue) {
+                        // Rodomas laikas lango tekste textView7
+                        tekstas = (TextView)findViewById(R.id.textView7);
+                        tekstas.setText(timevalue);
+                    }
+                }.execute();
             }
         });
-
     }
 
     // Meniu vaizdinimas
