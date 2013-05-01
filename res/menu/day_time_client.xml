@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:checkable="true"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="andrius.usinskas@vgtu.lt"/>
+    
+    <item
+        android:id="@+id/action_settings"
+        android:checkable="true"
+        android:orderInCategory="90"
+        android:showAsAction="never"
+        android:title="2013-04-26 Vilnius"/>
+
+</menu>
